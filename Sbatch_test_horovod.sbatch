@@ -5,12 +5,9 @@
 
 export MIOPEN_USER_DB_PATH=/tmp/tensorflow-miopen-${USER}-2.8
 export MIOPEN_DEBUG_DISABLE_FIND_DB=1
+export HOROVOD_HIERARCHICAL_ALLREDUCE=1
 
 mpirun -np 4 \
-    -H localhost:4 \
-    -bind-to none -map-by slot \
-    -x NCCL_DEBUG=INFO -x LD_LIBRARY_PATH -x PATH \
-    -mca pml ob1 -mca btl ^openib \
     python run_classifier_hvd.py \
     --task_name=cla \
     --do_lower_case=true \
