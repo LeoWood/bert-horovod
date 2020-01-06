@@ -7,6 +7,8 @@ export MIOPEN_USER_DB_PATH=/tmp/tensorflow-miopen-${USER}-2.8
 export MIOPEN_DEBUG_DISABLE_FIND_DB=1
 export HOROVOD_HIERARCHICAL_ALLREDUCE=1
 
+which mpirun
+
 nodefile=$(generate_pbs_nodefile)
 np=$(cat $nodefile|sort|uniq |wc -l)
 
