@@ -1,0 +1,5 @@
+*.pyc
+env/*
+squad1.1/*
+squad2.0/*
+glue_data/*
