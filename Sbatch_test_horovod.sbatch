@@ -14,7 +14,7 @@ np=$(cat $nodefile|sort|uniq |wc -l)
 
 np=$(($np*4))
 
-mpirun -np $np --allow-run-as-root -hostfile $nodefile -mca pml ucx -x UCX_TLS=sm,rc,rocm_cpy,rocm_gdr,rocm_ipc -x LD_LIBRARY_PATH -mca coll_hcoll_enable 0 --bind-to none \
+mpirun -np $np --oversubscribe --allow-run-as-root -hostfile $nodefile -mca pml ucx -x UCX_TLS=sm,rc,rocm_cpy,rocm_gdr,rocm_ipc -x LD_LIBRARY_PATH -mca coll_hcoll_enable 0 --bind-to none \
     python run_classifier_hvd.py \
     --task_name=cla \
     --do_lower_case=true \
