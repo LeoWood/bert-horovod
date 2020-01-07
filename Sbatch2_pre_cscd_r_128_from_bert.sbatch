@@ -2,7 +2,7 @@
 #SBATCH -p debug
 #SBATCH -N 4
 #SBATCH -J pre_scrach
-#SBATCH -o pre_cscd_r_128_from_scrach.out
+#SBATCH -o pre_cscd_r_128_from_bert.out
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=dcu:4
