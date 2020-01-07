@@ -2,19 +2,26 @@
 #SBATCH -p debug
 #SBATCH -N 1
 #SBATCH -J test_cla_multi_gpus
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=8
+#SBATCH --gres=dcu:4
+DIR=`pwd`
+hostfile=${DIR}/tmp
+scontrol show hostnames $SLURM_JOB_NODELIST > ${hostfile}
+
+for i in `cat ${hostfile}`
+do
+    echo ${i} slots=4
+done > ${DIR}/hostfile-tmp
+
+num_node=`cat ${hostfile} | uniq | wc -l`
+((num_DCU=${num_node}*4))
 
 export MIOPEN_USER_DB_PATH=/tmp/tensorflow-miopen-${USER}-2.8
 export MIOPEN_DEBUG_DISABLE_FIND_DB=1
 export HOROVOD_HIERARCHICAL_ALLREDUCE=1
 
-which mpirun
-
-nodefile=$(generate_pbs_nodefile)
-np=$(cat $nodefile|sort|uniq |wc -l)
-
-np=$(($np*4))
-
-mpirun -np $np --oversubscribe --allow-run-as-root -hostfile $nodefile -mca pml ucx -x UCX_TLS=sm,rc,rocm_cpy,rocm_gdr,rocm_ipc -x LD_LIBRARY_PATH -mca coll_hcoll_enable 0 --bind-to none \
+mpirun -np ${num_DCU} --hostfile ${DIR}/hostfile-tmp -mca pml ucx -x UCX_TLS=sm,rc,rocm_cpy,rocm_gdr,rocm_ipc -x LD_LIBRARY_PATH -mca coll_hcoll_enable 0 --bind-to none \
     python run_classifier_hvd.py \
     --task_name=cla \
     --do_lower_case=true \
