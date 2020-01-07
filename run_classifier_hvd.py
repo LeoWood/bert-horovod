@@ -976,14 +976,41 @@ def main(_):
             is_training=False,
             drop_remainder=eval_drop_remainder)
 
-        result = estimator.evaluate(input_fn=eval_input_fn, steps=eval_steps)
+        #######################################################################################################################
+        # evaluate all checkpoints; you can use the checkpoint with the best dev accuarcy
+        steps_and_files = []
+        filenames = tf.gfile.ListDirectory(FLAGS.output_dir)
+        for filename in filenames:
+            if filename.endswith(".index"):
+                ckpt_name = filename[:-6]
+                cur_filename = os.path.join(FLAGS.output_dir, ckpt_name)
+                global_step = int(cur_filename.split("-")[-1])
+                tf.logging.info("Add {} to eval list.".format(cur_filename))
+                steps_and_files.append([global_step, cur_filename])
+        steps_and_files = sorted(steps_and_files, key=lambda x: x[0])
 
         output_eval_file = os.path.join(FLAGS.output_dir, "eval_results.txt")
+        print("output_eval_file:", output_eval_file)
+        tf.logging.info("output_eval_file:" + output_eval_file)
         with tf.gfile.GFile(output_eval_file, "w") as writer:
-            tf.logging.info("***** Eval results *****")
-            for key in sorted(result.keys()):
-                tf.logging.info("  %s = %s", key, str(result[key]))
-                writer.write("%s = %s\n" % (key, str(result[key])))
+            for global_step, filename in sorted(steps_and_files, key=lambda x: x[0]):
+                result = estimator.evaluate(input_fn=eval_input_fn, steps=eval_steps, checkpoint_path=filename)
+
+                tf.logging.info("***** Eval results %s *****" % (filename))
+                writer.write("***** Eval results %s *****\n" % (filename))
+                for key in sorted(result.keys()):
+                    tf.logging.info("  %s = %s", key, str(result[key]))
+                    writer.write("%s = %s\n" % (key, str(result[key])))
+        #######################################################################################################################
+
+        # result = estimator.evaluate(input_fn=eval_input_fn, steps=eval_steps)
+        #
+        # output_eval_file = os.path.join(FLAGS.output_dir, "eval_results.txt")
+        # with tf.gfile.GFile(output_eval_file, "w") as writer:
+        #     tf.logging.info("***** Eval results *****")
+        #     for key in sorted(result.keys()):
+        #         tf.logging.info("  %s = %s", key, str(result[key]))
+        #         writer.write("%s = %s\n" % (key, str(result[key])))
 
     if FLAGS.do_predict:
         true_labels = []
