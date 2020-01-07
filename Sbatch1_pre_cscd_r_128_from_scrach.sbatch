@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -p normal
-#SBATCH -N 10
+#SBATCH -N 4
 #SBATCH -J pre_scrach
 #SBATCH -o pre_cscd_r_128_from_scrach.out
 #SBATCH --ntasks-per-node=4
