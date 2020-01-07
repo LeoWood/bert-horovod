@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH -p debug
-#SBATCH -N 4
+#SBATCH -p normal
+#SBATCH -N 10
 #SBATCH -J pre_scrach
 #SBATCH -o pre_cscd_r_128_from_scrach.out
 #SBATCH --ntasks-per-node=4
@@ -33,5 +33,5 @@ mpirun -np ${num_DCU} --hostfile ${DIR}/hostfile-tmp -mca pml ucx -x UCX_TLS=sm,
  --do_eval True \
  --train_batch_size 64\
  --learning_rate 2e-5\
- --num_train_steps 500000\
- --save_checkpoints_steps 10000\
+ --num_train_steps 30000\
+ --save_checkpoints_steps 5000\
