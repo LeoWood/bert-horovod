@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH -p debug
-#SBATCH -N 1
-#SBATCH -J test_1_node
-#SBATCH -o test_1_node.out
+#SBATCH -N 2
+#SBATCH -J test_2_nodes
+#SBATCH -o test_multi_nodes.out
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=dcu:4
