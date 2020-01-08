@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH -p debug
 #SBATCH -N 1
-#SBATCH -J test_lr_1_node
-#SBATCH -o test_lr_1_node.out
+#SBATCH -J test_lr_up_1_node
+#SBATCH -o test_lr_up_1_node.out
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=dcu:4
@@ -37,5 +37,5 @@ mpirun -np ${num_DCU} --hostfile ${DIR}/hostfile-tmp -mca pml ucx -x UCX_TLS=sm,
     --train_batch_size=8 \
     --learning_rate=5e-6 \
     --num_train_epochs=2.0 \
-    --output_dir=output/test_lr_horovod_1_node \
+    --output_dir=output/test_lr_up_horovod_1_node \
     --cla_nums=16
