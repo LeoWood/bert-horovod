@@ -1,0 +1,44 @@
+#!/bin/bash
+#SBATCH -p debug
+#SBATCH -N 1
+#SBATCH -J test_1_node
+#SBATCH -o test_new_1_node.out
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=8
+#SBATCH --gres=dcu:4
+DIR=`pwd`
+hostfile=${DIR}/tmp
+scontrol show hostnames $SLURM_JOB_NODELIST > ${hostfile}
+
+for i in `cat ${hostfile}`
+do
+    echo ${i} slots=4
+done > ${DIR}/hostfile-tmp
+
+num_node=`cat ${hostfile} | uniq | wc -l`
+((num_DCU=${num_node}*4))
+
+export MIOPEN_USER_DB_PATH=/tmp/tensorflow-miopen-${USER}-2.8
+export MIOPEN_DEBUG_DISABLE_FIND_DB=1
+export HOROVOD_HIERARCHICAL_ALLREDUCE=1
+
+mpirun -np ${num_DCU} --hostfile ${DIR}/hostfile-tmp \
+    -bind-to none -map-by slot \
+    -x NCCL_DEBUG=INFO -x LD_LIBRARY_PATH -x PATH \
+    -mca pml ob1 -mca btl ^openib \
+    python run_classifier_hvd.py \
+    --task_name=cla \
+    --do_lower_case=true \
+    --do_train=true \
+    --do_eval=true \
+    --do_predict=true \
+    --data_dir=/public/home/zzx6320/lh/Projects/bert/data/data_wanfang_16000 \
+    --vocab_file=/public/home/zzx6320/lh/Projects/bert/models/chinese_L-12_H-768_A-12/chinese_L-12_H-768_A-12/vocab.txt \
+    --bert_config_file=/public/home/zzx6320/lh/Projects/bert/models/chinese_L-12_H-768_A-12/chinese_L-12_H-768_A-12/bert_config.json \
+    --init_checkpoint=/public/home/zzx6320/lh/Projects/bert/models/chinese_L-12_H-768_A-12/chinese_L-12_H-768_A-12/bert_model.ckpt \
+    --max_seq_length=400 \
+    --train_batch_size=8 \
+    --learning_rate=2e-5 \
+    --num_train_epochs=2.0 \
+    --output_dir=output/test_new_horovod_1_node \
+    --cla_nums=16
