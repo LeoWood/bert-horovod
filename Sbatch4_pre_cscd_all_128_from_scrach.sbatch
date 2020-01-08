@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH -p normal
-#SBATCH -N 4
+#SBATCH -N 10
 #SBATCH -J pre_scrach
-#SBATCH -o pre_cscd_r_128_from_bert.out
+#SBATCH -o pre_cscd_all_128_from_scrach.out
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=dcu:4
@@ -25,14 +25,13 @@ export HOROVOD_HIERARCHICAL_ALLREDUCE=1
 
 mpirun -np ${num_DCU} --hostfile ${DIR}/hostfile-tmp -mca pml ucx -x UCX_TLS=sm,rc,rocm_cpy,rocm_gdr,rocm_ipc -x LD_LIBRARY_PATH -mca coll_hcoll_enable 0 --bind-to none \
     python run_pretraining_hvd.py\
- --input_file /public/home/zzx6320/lh/Projects/bert/data/cscibert_pre_training/pre_training_R_cscd_128.tfrecord\
+ --input_file /public/home/zzx6320/lh/Projects/Data/*.tfrecord\
  --bert_config_file /public/home/zzx6320/lh/Projects/bert/models/chinese_L-12_H-768_A-12/chinese_L-12_H-768_A-12/bert_config.json\
- --init_checkpoint /public/home/zzx6320/lh/Projects/bert/models/chinese_L-12_H-768_A-12/chinese_L-12_H-768_A-12/bert_model.ckpt \
- --output_dir output/Pre2_cscd_R_128_64_from_bert\
+ --output_dir output/Pre4_cscd_all_128_64_from_scrach\
  --max_seq_length 128\
  --do_train True\
  --do_eval True \
  --train_batch_size 64\
  --learning_rate 2e-5\
- --num_train_steps 500000\
- --save_checkpoints_steps 5000\
+ --num_train_steps 1000000\
+ --save_checkpoints_steps 1000\
