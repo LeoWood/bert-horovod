@@ -37,5 +37,5 @@ mpirun -np ${num_DCU} --hostfile ${DIR}/hostfile-tmp -mca pml ucx -x UCX_TLS=sm,
     --train_batch_size=8 \
     --learning_rate=2e-5 \
     --num_train_epochs=2.0 \
-    --output_dir=output/test_horovod_1_node \
+    --output_dir=output/test_horovod_1_node_new_lr \
     --cla_nums=16
