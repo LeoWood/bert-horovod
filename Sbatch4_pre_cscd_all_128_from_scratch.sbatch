@@ -2,7 +2,7 @@
 #SBATCH -p normal
 #SBATCH -N 4
 #SBATCH -J pre_all_scrach
-#SBATCH -o Sbatch4_test_29000.out
+#SBATCH -o Sbatch4.out
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=dcu:4
@@ -31,6 +31,7 @@ mpirun -np ${num_DCU} --hostfile ${DIR}/hostfile-tmp -mca pml ucx -x UCX_TLS=sm,
  --bert_config_file /public/home/zzx6320/lh/Projects/bert/models/chinese_L-12_H-768_A-12/chinese_L-12_H-768_A-12/bert_config.json\
  --output_dir /work1/zzx6320/lh/Projects/bert/outputs/Pre4_cscd_all_128_64_from_scratch\
  --max_seq_length 128\
+ --do_train True\
  --do_eval True \
  --train_batch_size 64\
  --learning_rate 2e-5\
