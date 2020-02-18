@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH -p normal
 #SBATCH -N 4
-#SBATCH -J pre_all_bert
-#SBATCH -o Sbatch3.out
+#SBATCH -J test_bert
+#SBATCH -o Sbatch5_test.out
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=dcu:4
