@@ -2,7 +2,7 @@
 #SBATCH -p normal
 #SBATCH -N 4
 #SBATCH -J pre_all_scrach
-#SBATCH -o Sbatch4.out
+#SBATCH -o Sbatch4_test_29000.out
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=dcu:4
