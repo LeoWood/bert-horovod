@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -p normal
 #SBATCH -N 4
-#SBATCH -J pre_all_scrach
+#SBATCH -J pre_all_bert
 #SBATCH -o Sbatch4_test.out
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=8
