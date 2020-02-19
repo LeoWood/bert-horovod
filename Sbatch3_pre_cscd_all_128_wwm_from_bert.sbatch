@@ -36,5 +36,5 @@ mpirun -np ${num_DCU} --hostfile ${DIR}/hostfile-tmp -mca pml ucx -x UCX_TLS=sm,
  --do_eval True \
  --train_batch_size 64\
  --learning_rate 2e-5\
- --num_train_steps 1000000\
+ --num_train_steps 2000000\
  --save_checkpoints_steps 1000\
