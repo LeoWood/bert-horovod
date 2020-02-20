@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -p normal
-#SBATCH -N 4
+#SBATCH -N 1
 #SBATCH -J test_bert
 #SBATCH -o Sbatch8_test.out
 #SBATCH --ntasks-per-node=4
