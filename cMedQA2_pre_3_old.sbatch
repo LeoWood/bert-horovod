@@ -37,5 +37,5 @@ mpirun -np ${num_DCU} --hostfile ${DIR}/hostfile-tmp -mca pml ucx -x UCX_TLS=sm,
     --train_batch_size=5 \
     --learning_rate=2e-5 \
     --num_train_epochs=3.0 \
-    --output_dir=output/cMedQA2_pre_3_old \
+    --output_dir=/work1/zzx6320/lh/Projects/bert/outputs/cMedQA2_pre_3_old \
     --cla_nums=2
