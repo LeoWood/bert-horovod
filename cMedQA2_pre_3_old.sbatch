@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH -p debug
+#SBATCH -p normal
 #SBATCH -N 4
 #SBATCH -J cmedaq_base
-#SBATCH -o test_multi_nodes.out
+#SBATCH -o cMedQA2_pre_3_old.out
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=dcu:4
