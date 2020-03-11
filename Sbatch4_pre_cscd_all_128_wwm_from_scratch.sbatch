@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -p normal
 #SBATCH -N 4
-#SBATCH -J pre_all_bert
+#SBATCH -J 4
 #SBATCH -o Sbatch4.out
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=8
@@ -35,5 +35,5 @@ mpirun -np ${num_DCU} --hostfile ${DIR}/hostfile-tmp -mca pml ucx -x UCX_TLS=sm,
  --do_eval True \
  --train_batch_size 64\
  --learning_rate 2e-5\
- --num_train_steps 2000000\
+ --num_train_steps 3000000\
  --save_checkpoints_steps 1000\
